@@ -7,7 +7,7 @@ library(xml2)
 # get already posted updates
 Sys.setenv(BSKY_TOKEN = "cranberries.rds")
 auth(user = "cranberriesfeed.bsky.social", password = Sys.getenv("ATR_PW"), overwrite = TRUE)
-feed <- get_skeets_authored_by("cranberriesfeed.bsky.social", limit = 5000L)
+posts <- get_skeets_authored_by("cranberriesfeed.bsky.social", limit = 5000L)
 
 # collect rss feed
 feed <- read_xml("http://dirk.eddelbuettel.com/cranberries/index.rss")
@@ -38,7 +38,7 @@ new_pkgs <- changes |>
     package, "} with initial version", version,
     " #rstats\n\nhttps://cran.r-project.org/package=", package)) |>
   # check which posts were already released
-  filter(!post %in% feed$text)
+  filter(!post %in% posts$text)
 
 
 # create posts for updates and removals
@@ -52,7 +52,7 @@ updates <- changes |>
     type ==  "removed" ~ paste("CRAN removals:", package, "#rstats")
   )) |>
   # check which posts were already released
-  filter(!post %in% feed$text)
+  filter(!post %in% posts$text)
 
 for (i in seq_len(nrow(new_pkgs))) {
   post_skeet(text = new_pkgs$post[i], created_at = new_pkgs$timestamp[i])
