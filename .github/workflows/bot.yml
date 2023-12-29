@@ -1,13 +1,13 @@
 name: "Update Bot"
-on:
-  schedule:
-    - cron: '0 * * * *'
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+# on:
+  # schedule:
+  #   - cron: '0 * * * *'
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
 
 jobs:
   cran-updates:
